@@ -1,0 +1,118 @@
+.settings {
+  background-color: rgb(251, 251, 251);
+  border-bottom: solid 1px rgb(89, 89, 89);
+  height: 75px;
+  line-height: 74px;
+  margin-left: 0px;
+  margin-right: 0px;
+  overflow-y: auto;
+}
+
+span {
+  font-size: 14px;
+}
+
+.row {
+  margin: 0px;
+}
+
+.objContainer {
+  background-color: white;
+  overflow-y: auto;
+  border-right: solid 1px rgb(89, 89, 89);
+  user-select: none;
+  cursor: pointer;
+  padding-right: 0px;
+  padding-left: 0px;
+  height: calc(100vh - 75px);
+}
+
+.svgContainer {
+  user-select: none;
+  padding-right: 0px;
+  padding-left: 0px;
+  height: calc(100vh - 75px);
+  overflow: auto;
+}
+
+.fa-repeat:hover{
+  animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0.0turn);
+  }
+  50% {
+    transform: rotate(0.5turn);
+  }
+  100% {
+    transform: rotate(1.0turn);
+  }
+}
+
+.pointObject {
+  transition: height 0.2s linear;
+  height:70px;
+  color: rgb(89, 89, 89);
+}
+
+.pointObject:hover {
+  color: rgb(16, 142, 233);
+}
+
+.pointObjectExtended {
+  transition: height 0.2s linear;
+  height: 200px;
+  color: rgb(89, 89, 89);
+}
+
+.lineObject {
+  color: rgb(89, 89, 89);
+  margin-right: 0px;
+}
+
+.lineObject:hover {
+  color: rgb(16, 142, 233);
+}
+
+.selectedPointObj {
+  transition: height 0.2s linear;
+  height:70px;
+  color: rgb(16, 142, 233);
+  background-color: rgb(236, 246, 253);
+}
+
+.selectedPointObjExtended {
+  transition: height 0.2s linear;
+  height: 200px;
+  color: rgb(16, 142, 233);
+  background-color: rgb(236, 246, 253);
+}
+
+.selectedPointObj:hover {
+}
+
+.selectedLineObj {
+  color: rgb(16, 142, 233);
+  background-color: rgb(236, 246, 253);
+}
+
+.selectedLineObj:hover {
+
+}
+
+.fa-angle-up:hover{
+}
+
+.fa-angle-down:hover{
+}
+
+.linepath:hover {
+  stroke-width: 3px;
+  stroke-opacity: 0.5;
+}
+
+.pointcircle:hover {
+  r: 5px;
+}
