@@ -31,10 +31,40 @@ class LineObject extends Component {
           <i className="fa fa-arrows-h" aria-hidden="true" /> {this.props.num}
         </p>
         <p style={{}}>
-          X: {this.props.p1x}, Y: {this.props.p1y}, Z: {this.props.p1z}
+          X:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p1x}
+            onChange={value => this.props.setXYZ(this.props.num, 1, value)}
+          />&nbsp; Y:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p1y}
+            onChange={value => this.props.setXYZ(this.props.num, 2, value)}
+          />&nbsp; Z:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p1z}
+            onChange={value => this.props.setXYZ(this.props.num, 3, value)}
+          />
         </p>
-        <p style={{}}>
-          X: {this.props.p2x}, Y: {this.props.p2y}, Z: {this.props.p2z}
+        <p style={{marginTop: "2px"}}>
+          X:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p2x}
+            onChange={value => this.props.setXYZ(this.props.num, 4, value)}
+          />&nbsp; Y:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p2y}
+            onChange={value => this.props.setXYZ(this.props.num, 5, value)}
+          />&nbsp; Z:{" "}
+          <InputNumber
+            style={{ width: "15%" }}
+            value={this.props.p2z}
+            onChange={value => this.props.setXYZ(this.props.num, 6, value)}
+          />
         </p>
       </div>
     );

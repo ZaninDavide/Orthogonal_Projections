@@ -16,7 +16,12 @@ class PointObject extends Component {
             : this.props.extended ? "pointObjectExtended " : "pointObject"
         }
         style={{ fontSize: "14px", overflow: "hidden", paddingLeft: "5px" }}
-        onClick={e => this.props.onClick(this.props.num, e)}
+        onClick={(e) =>
+          {
+            e.stopPropagation();
+            this.props.onClick(this.props.num, e);        
+          }     
+        }
       >
         <div style={{ float: "right" }}>
           <Switch
@@ -59,17 +64,17 @@ class PointObject extends Component {
           <InputNumber
             style={{ width: "15%" }}
             value={this.props.x}
-            onChange={value => this.props.setXYZ(this.props.num, 0, value)}
+            onChange={value => this.props.setXYZ(this.props.num, 1, value)}
           />&nbsp; Y:{" "}
           <InputNumber
             style={{ width: "15%" }}
             value={this.props.y}
-            onChange={value => this.props.setXYZ(this.props.num, 1, value)}
+            onChange={value => this.props.setXYZ(this.props.num, 2, value)}
           />&nbsp; Z:{" "}
           <InputNumber
             style={{ width: "15%" }}
             value={this.props.z}
-            onChange={value => this.props.setXYZ(this.props.num, 2, value)}
+            onChange={value => this.props.setXYZ(this.props.num, 3, value)}
           />
         </p>
         {this.props.extended ? (
@@ -109,14 +114,14 @@ class PointObject extends Component {
         <InputNumber
           value={this.props.xText}
           onChange={value =>
-            this.props.setTextLocation(this.props.num, 9, value)}
+            this.props.setTextLocation(this.props.num, 10, value)}
           style={{ width: "30%" }}
         />
         &nbsp;&nbsp;Y:{" "}
         <InputNumber
           value={this.props.yText}
           onChange={value =>
-            this.props.setTextLocation(this.props.num, 10, value)}
+            this.props.setTextLocation(this.props.num, 11, value)}
           style={{ width: "30%" }}
         /><br/>
         Construction dotted:{" "}

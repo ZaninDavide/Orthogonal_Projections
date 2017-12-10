@@ -22,12 +22,13 @@ class App extends Component {
       drawaxes: true,
       xdeg: 210,
       ydeg: 300,
-      points: [
-        [10, 20, 30, false, "keyc", false, "#000000", true, "Point 1", 0, 0, false],
-        [50, 200, 60, false, "keyb", false, "#000000", true, "Point 2", 0, 0, false],
-        [70, 80, 80, false, "keya", false, "#000000", true, "Point 3", 0, 0, false]
+      objects: [
+        ["point", 10, 20, 30, false, "keyc", false, "#000000", true, "Point 1", 0, 0, false],
+        ["point", 50, 200, 60, false, "keyb", false, "#000000", true, "Point 2", 0, 0, false],
+        ["point", 70, 80, 80, false, "keya", false, "#000000", true, "Point 3", 0, 0, false],
+        ["line", 10, 20, 30, 50, 200, 60, false, "keyd"],
       ],
-      lines: [[10, 20, 30, 50, 200, 60, false, "keyd"]],
+      //lines: [[10, 20, 30, 50, 200, 60, false, "keyd"]],
       seledtedpoint: 0,
       ox: 265, //5/12*window.innerWidth,
       oy: 265, //(window.innerHeight-75)/2,
@@ -36,8 +37,7 @@ class App extends Component {
       buttonz: 0,
       newPointDialogShowed: false,
     };
-    this.delete = this.delete.bind(this);
-    this.deleteline = this.deleteline.bind(this);
+    this.deleteobj = this.deleteobj.bind(this);
     this.objPointOnClick = this.objPointOnClick.bind(this);
     this.objLineOnClick = this.objLineOnClick.bind(this);
     this.setDotted = this.setDotted.bind(this);
@@ -53,6 +53,7 @@ class App extends Component {
     this.setcDotted = this.setcDotted.bind(this);
     this.setTextLocation = this.setTextLocation.bind(this);
     this.addPoint = this.addPoint.bind(this);
+    this.addLine = this.addLine.bind(this);
     window.addEventListener("resize", this.eventresize);
   }
 
@@ -62,15 +63,9 @@ class App extends Component {
     //this.setState({ox: 5/12*w, oy: (h-75)/2})
   }
 
-  delete(num) {
+  deleteobj(num) {
     this.setState(function(state, props) {
-      return { points: state.points.filter((x, id) => id !== num) };
-    });
-  }
-
-  deleteline(num) {
-    this.setState(function(state, props) {
-      return { lines: state.lines.filter((x, id) => id !== num) };
+      return { objects: state.objects.filter((x, id) => id !== num) };
     });
   }
 
@@ -78,17 +73,12 @@ class App extends Component {
     e.stopPropagation();
     if (
       e.shiftKey === true &&
-      this.state.seledtedpoint < this.state.points.length &&
-      num < this.state.points.length
+      this.state.seledtedpoint < this.state.objects.length &&
+      num < this.state.objects.length
     ) {
-      let p1 = this.state.points[this.state.seledtedpoint];
-      let p2 = this.state.points[num];
-      this.setState({
-        lines: [
-          ...this.state.lines,
-          [p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], false, ++keynum]
-        ]
-      });
+      let p1 = this.state.objects[this.state.seledtedpoint];
+      let p2 = this.state.objects[num];
+      this.addLine(p1[1], p1[2], p1[3], p2[1], p2[2], p2[3]);
     }
     if (this.state.seledtedpoint !== num) {
       this.setState({ seledtedpoint: num });
@@ -98,65 +88,98 @@ class App extends Component {
   }
 
   objLineOnClick(num) {
-    if (this.state.seledtedpoint !== num + this.state.points.length) {
-      this.setState({ seledtedpoint: num + this.state.points.length });
+    if (this.state.seledtedpoint !== num) {
+      this.setState({ seledtedpoint: num});
     } else {
       this.setState({ seledtedpoint: -1 });
     }
   }
 
+  addPoint(x = 0, y = 0, z = 0, name = "New Point") {
+    let objects = this.state.objects;
+    this.setState({
+      objects: [
+        ...objects,
+        [
+          "point",
+          x,
+          y,
+          z,
+          false,
+          ++keynum,
+          false,
+          "#000000",
+          true,
+          name,
+          0,
+          0,
+          false
+        ]
+      ]
+    })
+  }
+
+  addLine(x, y, z, x2, y2, z2){
+    this.setState({
+      objects: [
+        ...this.state.objects,
+        ["line", x, y, z, x2, y2, z2, false, ++keynum]
+      ]
+    });
+  }
+
   setDotted(num, bool) {
     let ls = [...this.state.lines];
-    ls[num][6] = bool;
+    ls[num][7] = bool;
     this.setState({ lines: ls });
   }
 
   setExtended(num, bool) {
-    let p = [...this.state.points];
-    p[num][5] = bool;
-    this.setState({ points: p });
+    let p = [...this.state.objects];
+    p[num][6] = bool;
+    this.setState({ objects: p });
   }
 
   setCostruzione(num, bool) {
-    let ls = [...this.state.points];
-    ls[num][3] = bool;
-    this.setState({ points: ls });
+    let ls = [...this.state.objects];
+    ls[num][4] = bool;
+    this.setState({ objects: ls });
   }
 
   setColor(num, val) {
-    let p = [...this.state.points];
-    p[num][6] = val;
-    this.setState({ points: p });
+    let p = [...this.state.objects];
+    p[num][7] = val;
+    this.setState({ objects: p });
   }
 
   setXYZ(num, xyz, val) {
-    let p = [...this.state.points];
+    let p = [...this.state.objects];
     p[num][xyz] = val;
-    this.setState({ points: p });
+    this.setState({ objects: p });
   }
 
   setVisible(num, bool) {
-    let p = [...this.state.points];
-    p[num][7] = bool;
-    this.setState({ points: p });
+    let p = [...this.state.objects];
+    p[num][8] = bool;
+    this.setState({ objects: p });
   }
 
-  setcDotted(num, bool) {
-    let p = [...this.state.points];
-    p[num][11] = bool;
-    this.setState({ points: p });
+  setDotted(num, bool) {
+    let p = [...this.state.objects];
+    p[num][12] = bool;
+    this.setState({ objects: p });
   }
 
   setText(num, val) {
-    let p = [...this.state.points];
-    p[num][8] = val;
-    this.setState({ points: p });
+    let p = [...this.state.objects];
+    p[num][9] = val;
+    this.setState({ objects: p });
   }
 
   setTextLocation(num, xy, val) {
-    let p = [...this.state.points];
+    let p = [...this.state.objects];
     p[num][xy] = val;
-    this.setState({ points: p });
+    this.setState({ objects: p });
   }
 
   setNewButtonDialog(bool){
@@ -210,28 +233,7 @@ class App extends Component {
     document.body.removeChild(downloadLink);
   }
 
-  addPoint(x, y, z, name = "New Point") {
-    let points = this.state.points;
-    this.setState({
-      points: [
-        ...points,
-        [
-          x,
-          y,
-          z,
-          false,
-          ++keynum,
-          false,
-          "#000000",
-          true,
-          name,
-          0,
-          0,
-          false
-        ]
-      ]
-    })
-  }
+
 
   componentDidMount() {
     if (first) {
@@ -247,7 +249,7 @@ class App extends Component {
   }
 
   render() {
-    const { points, buttonx, buttony, buttonz } = this.state;
+    const { objects, buttonx, buttony, buttonz } = this.state;
     return (
       <div>
         <div className="settings row">
@@ -296,59 +298,75 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="objContainer col-sm-2">
-            {this.state.points.map((n, id) => (
+            {[...this.state.objects].reverse().map((n, id) => (
+              n[0] === "point" ?
               <PointObject
-                num={id}
-                x={n[0]}
-                y={n[1]}
-                z={n[2]}
-                selected={this.state.seledtedpoint == id ? true : false}
+                num={this.state.objects.length - 1 - id}
+                x={n[1]}
+                y={n[2]}
+                z={n[3]}
+                selected={this.state.seledtedpoint === (this.state.objects.length - 1 - id) ? true : false}
                 onClick={this.objPointOnClick}
-                delete={this.delete}
+                delete={this.deleteobj}
                 setCostruzione={this.setCostruzione}
-                key={"po" + n[4]}
-                extended={n[5]}
+                key={"po" + n[5]}
+                extended={n[6]}
                 setExtended={this.setExtended}
-                colore={n[6]}
+                colore={n[7]}
                 setColor={this.setColor}
                 setXYZ={this.setXYZ}
                 setVisible={this.setVisible}
-                visible={n[7]}
+                visible={n[8]}
                 setText={this.setText}
-                text={n[8]}
-                xText={n[9]}
-                yText={n[10]}
+                text={n[9]}
+                xText={n[10]}
+                yText={n[11]}
                 setTextLocation={this.setTextLocation}
                 setcDotted={this.setcDotted}
               />
-            ))}
-            <div
-              style={{ backgroundColor: "rgb(89, 89, 89)", height: "1px" }}
-            />
-            {this.state.lines.map((n, id) => (
+              :
               <LineObject
-                num={id}
-                p1x={n[0]}
-                p1y={n[1]}
-                p1z={n[2]}
-                p2x={n[3]}
-                p2y={n[4]}
-                p2z={n[5]}
-                dotted={n[6]}
-                selected={
-                  this.state.seledtedpoint == id + this.state.points.length
-                    ? true
-                    : false
-                }
-                onClick={this.objLineOnClick}
-                delete={this.deleteline}
-                setDotted={this.setDotted}
-                key={"lo" + n[7]}
-              />
+              num={this.state.objects.length - 1 - id}
+              p1x={n[1]}
+              p1y={n[2]}
+              p1z={n[3]}
+              p2x={n[4]}
+              p2y={n[5]}
+              p2z={n[6]}
+              setXYZ={this.setXYZ}
+              dotted={n[7]}
+              selected={
+                this.state.seledtedpoint === (this.state.objects.length - 1 - id)
+                  ? true
+                  : false
+              }
+              onClick={this.objLineOnClick}
+              delete={this.deleteobj}
+              setDotted={this.setDotted}
+              key={"lo" + n[8]}
+            />
             ))}
           </div>
           <div id="svgContainer" className="svgContainer col-sm-10">
             <svg className="" width="530mm" height="530mm" id="svgObject">
+              {this.state.objects.map(
+                (n, id) =>
+                  n[4] & n[0] === "point" ? (
+                    <Costruzione
+                      key={"pc" + n[5]}
+                      cx={n[1]}
+                      cy={n[2]}
+                      cz={n[3]}
+                      cDotted={n[12]}
+                      ox={this.state.ox}
+                      oy={this.state.oy}
+                      xdeg={this.state.xdeg}
+                      ydeg={this.state.ydeg}
+                    />
+                  ) : (
+                    ""
+                  )
+              )}
               {this.state.drawaxes ? <g><Line
                 onClick={() => ""}
                 ox={this.state.ox}
@@ -389,55 +407,33 @@ class App extends Component {
                 p2z={700}
               /></g>
               : ""}
-              {this.state.points.map(
-                (n, id) =>
-                  n[3] ? (
-                    <Costruzione
-                      key={"pc" + n[4]}
-                      cx={n[0]}
-                      cy={n[1]}
-                      cz={n[2]}
-                      cDotted={n[11]}
-                      ox={this.state.ox}
-                      oy={this.state.oy}
-                      xdeg={this.state.xdeg}
-                      ydeg={this.state.ydeg}
-                    />
-                  ) : (
-                    ""
-                  )
-              )}
-              {this.state.lines.map((n, id) => (
+              {this.state.objects.map((n, id) => (
+                n[0] === "line" ?
                 <Line
-                  key={"l" + n[7]}
+                  key={"l" + n[8]}
                   num={id}
-                  dotted={n[6]}
-                  p1x={n[0]}
-                  p1y={n[1]}
-                  p1z={n[2]}
-                  p2x={n[3]}
-                  p2y={n[4]}
-                  p2z={n[5]}
+                  dotted={n[7]}
+                  p1x={n[1]}
+                  p1y={n[2]}
+                  p1z={n[3]}
+                  p2x={n[4]}
+                  p2y={n[5]}
+                  p2z={n[6]}
                   ox={this.state.ox}
                   oy={this.state.oy}
                   xdeg={this.state.xdeg}
                   ydeg={this.state.ydeg}
-                  selected={
-                    this.state.seledtedpoint === id + this.state.points.length
-                      ? true
-                      : false
-                  }
+                  selected={this.state.seledtedpoint === id ? true : false}
                   onClick={this.objLineOnClick}
                 />
-              ))}
-              {this.state.points.map((n, id) => (
+                :
                 <Point
-                  key={"p" + n[4]}
+                  key={"p" + n[5]}
                   num={id}
-                  cx={n[0]}
-                  cy={n[1]}
-                  cz={n[2]}
-                  costruzionebool={n[3]}
+                  cx={n[1]}
+                  cy={n[2]}
+                  cz={n[3]}
+                  costruzionebool={n[4]}
                   r={3}
                   ox={this.state.ox}
                   oy={this.state.oy}
@@ -445,11 +441,11 @@ class App extends Component {
                   ydeg={this.state.ydeg}
                   selected={this.state.seledtedpoint === id ? true : false}
                   onClick={this.objPointOnClick}
-                  colore={n[6]}
-                  visible={n[7]}
-                  text={n[8]}
-                  xText={n[9]}
-                  yText={n[10]}
+                  colore={n[7]}
+                  visible={n[8]}
+                  text={n[9]}
+                  xText={n[10]}
+                  yText={n[11]}
                 />
               ))}
             </svg>
