@@ -16,15 +16,15 @@ class Line extends Component {
     return xDiff + yDiff - z;
   }
 
-  fromMmToPx(mm){
-    return (mm * 3.779528);
+  fromMmToPx(mm) {
+    return mm * 3.779528;
   }
 
   render() {
     return (
       <path
         d={
-          "M " +
+          /*"M " +
           this.fromMmToPx(this.props.ox +
             this.getX(
               this.props.p1x,
@@ -69,13 +69,39 @@ class Line extends Component {
             )
           )
             .toString()
-            .replace(",", ".")
+            .replace(",", ".")*/
+          this.props.points.reduce((tot, cur) => {
+            return (
+              tot +
+              " " +
+              (this.fromMmToPx(
+                this.props.ox +
+                  this.getX(cur[0], cur[1], this.props.xdeg, this.props.ydeg)
+              )
+                .toString()
+                .replace(",", ".") +
+                "," +
+                this.fromMmToPx(
+                  this.props.oy +
+                    this.getY(
+                      cur[0],
+                      cur[1],
+                      cur[2],
+                      this.props.xdeg,
+                      this.props.ydeg
+                    )
+                )
+                  .toString()
+                  .replace(",", "."))
+            );
+          }, "M")
         }
         stroke={
           this.props.selected
             ? "#108ee9"
             : this.props.linecolor ? this.props.linecolor : "#000"
         }
+        fill={"none"}
         onClick={() => this.props.onClick(this.props.num)}
         strokeDasharray={this.props.dotted ? "15, 5" : ""}
         className={"linepath"}

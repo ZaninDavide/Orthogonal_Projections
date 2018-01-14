@@ -30,19 +30,19 @@ class LineObject extends Component {
         <p style={{}}>
           <i className="fa fa-arrows-h" aria-hidden="true" />&nbsp;
           <input
-              placeholder="Text"
-              style={{
-                width: "calc(100% - 100px)",
-                height: "20px",
-                border: "0px",
-                backgroundColor: "transparent",
-                outline: "none"
-              }}
-              value={this.props.text}
-              onChange={e => this.props.setText(this.props.num, e.target.value)}
+            placeholder="Text"
+            style={{
+              width: "calc(100% - 100px)",
+              height: "20px",
+              border: "0px",
+              backgroundColor: "transparent",
+              outline: "none"
+            }}
+            value={this.props.text}
+            onChange={e => this.props.setText(this.props.num, e.target.value)}
           />
         </p>
-        <p style={{}}>
+        {/*        <p style={{}}>
           X:{" "}
           <InputNumber
             style={{ width: "15%" }}
@@ -77,7 +77,48 @@ class LineObject extends Component {
             value={this.props.p2z}
             onChange={value => this.props.setXYZ(this.props.num, 6, value)}
           />
-        </p>
+            </p>*/}
+        {this.props.points.map((n, id) => {
+          return (
+            <p style={{ marginBottom: "2px" }}>
+              X:{" "}
+              <InputNumber
+                style={{ width: "15%" }}
+                value={n[0]}
+                onChange={value =>
+                  this.props.setXYZpoligons(this.props.num, id, 0, value)
+                }
+              />&nbsp; Y:{" "}
+              <InputNumber
+                style={{ width: "15%" }}
+                value={n[1]}
+                onChange={value =>
+                  this.props.setXYZpoligons(this.props.num, id, 1, value)
+                }
+              />&nbsp; Z:{" "}
+              <InputNumber
+                style={{ width: "15%" }}
+                value={n[2]}
+                onChange={value =>
+                  this.props.setXYZpoligons(this.props.num, id, 2, value)
+                }
+              />
+              <button
+                style={{
+                  width: "15px",
+                  marginLeft: "2px",
+                  border: "0px",
+                  backgroundColor: "transparent"
+                }}
+                onClick={() =>
+                  this.props.poligonRemovePoint(this.props.num, id)
+                }
+              >
+                <i className="fa fa-times" aria-hidden="true" />
+              </button>
+            </p>
+          );
+        })}
       </div>
     );
   }

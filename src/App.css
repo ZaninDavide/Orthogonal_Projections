@@ -8,6 +8,10 @@
   overflow-y: auto;
 }
 
+button:focus {
+  outline: none;
+}
+
 span {
   font-size: 14px;
 }
@@ -35,25 +39,25 @@ span {
   overflow: auto;
 }
 
-.fa-repeat:hover{
+.fa-repeat:hover {
   animation: rotate 2s linear infinite;
 }
 
 @keyframes rotate {
   0% {
-    transform: rotate(0.0turn);
+    transform: rotate(0turn);
   }
   50% {
     transform: rotate(0.5turn);
   }
   100% {
-    transform: rotate(1.0turn);
+    transform: rotate(1turn);
   }
 }
 
 .pointObject {
   transition: height 0.2s linear;
-  height:70px;
+  height: 70px;
   color: rgb(89, 89, 89);
 }
 
@@ -70,7 +74,6 @@ span {
 .lineObject {
   color: rgb(89, 89, 89);
   margin-right: 0px;
-  height: 90px;
 }
 
 .lineObject:hover {
@@ -79,7 +82,7 @@ span {
 
 .selectedPointObj {
   transition: height 0.2s linear;
-  height:70px;
+  height: 70px;
   color: rgb(16, 142, 233);
   background-color: rgb(236, 246, 253);
 }
@@ -96,17 +99,16 @@ span {
 
 .selectedLineObj {
   color: rgb(16, 142, 233);
-  height: 90px;
   background-color: rgb(236, 246, 253);
 }
 
 .selectedLineObj:hover {
 }
 
-.fa-angle-up:hover{
+.fa-angle-up:hover {
 }
 
-.fa-angle-down:hover{
+.fa-angle-down:hover {
 }
 
 .linepath:hover {
