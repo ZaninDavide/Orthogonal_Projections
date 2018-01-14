@@ -9,7 +9,7 @@ class LineObject extends Component {
     return (
       <div
         className={this.props.selected ? "selectedLineObj" : "lineObject"}
-        style={{ fontSize: "14px" }}
+        style={{ fontSize: "14px", paddingLeft: "5px" }}
         onClick={() => this.props.onClick(this.props.num)}
       >
         <div style={{ float: "right" }}>
@@ -28,7 +28,19 @@ class LineObject extends Component {
           </Button>
         </div>
         <p style={{}}>
-          <i className="fa fa-arrows-h" aria-hidden="true" /> {this.props.num}
+          <i className="fa fa-arrows-h" aria-hidden="true" />&nbsp;
+          <input
+              placeholder="Text"
+              style={{
+                width: "calc(100% - 100px)",
+                height: "20px",
+                border: "0px",
+                backgroundColor: "transparent",
+                outline: "none"
+              }}
+              value={this.props.text}
+              onChange={e => this.props.setText(this.props.num, e.target.value)}
+          />
         </p>
         <p style={{}}>
           X:{" "}

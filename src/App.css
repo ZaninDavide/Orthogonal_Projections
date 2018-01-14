@@ -70,6 +70,7 @@ span {
 .lineObject {
   color: rgb(89, 89, 89);
   margin-right: 0px;
+  height: 90px;
 }
 
 .lineObject:hover {
@@ -95,11 +96,11 @@ span {
 
 .selectedLineObj {
   color: rgb(16, 142, 233);
+  height: 90px;
   background-color: rgb(236, 246, 253);
 }
 
 .selectedLineObj:hover {
-
 }
 
 .fa-angle-up:hover{
