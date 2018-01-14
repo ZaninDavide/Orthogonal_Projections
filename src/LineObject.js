@@ -20,12 +20,17 @@ class LineObject extends Component {
             size="small"
             onChange={bool => this.props.setDotted(this.props.num, bool)}
           />&nbsp;
-          <Button
-            style={{ height: "20px", marginRight: "2px" }}
+          <button
+            style={{
+              height: "20px",
+              marginRight: "2px",
+              backgroundColor: "transparent",
+              border: "0px"
+            }}
             onClick={() => this.props.delete(this.props.num)}
           >
             <i className="fa fa-times" aria-hidden="true" />
-          </Button>
+          </button>
         </div>
         <p style={{}}>
           <i className="fa fa-arrows-h" aria-hidden="true" />&nbsp;

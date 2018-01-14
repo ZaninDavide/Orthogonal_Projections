@@ -16,12 +16,10 @@ class PointObject extends Component {
             : this.props.extended ? "pointObjectExtended " : "pointObject"
         }
         style={{ fontSize: "14px", overflow: "hidden", paddingLeft: "5px" }}
-        onClick={(e) =>
-          {
-            e.stopPropagation();
-            this.props.onClick(this.props.num, e);        
-          }     
-        }
+        onClick={e => {
+          e.stopPropagation();
+          this.props.onClick(this.props.num, e);
+        }}
       >
         <div style={{ float: "right" }}>
           <Switch
@@ -30,12 +28,17 @@ class PointObject extends Component {
             size="small"
             onChange={bool => this.props.setCostruzione(this.props.num, bool)}
           />&nbsp;
-          <Button
-            style={{ height: "20px", marginRight: "2px" }}
+          <button
+            style={{
+              height: "20px",
+              marginRight: "2px",
+              backgroundColor: "transparent",
+              border: "0px"
+            }}
             onClick={() => this.props.delete(this.props.num)}
           >
             <i className="fa fa-times" aria-hidden="true" />
-          </Button>
+          </button>
         </div>
         <p style={{ marginBottom: "6px" }}>
           <i
@@ -43,7 +46,8 @@ class PointObject extends Component {
               this.props.visible ? "fa fa-dot-circle-o" : "fa fa-circle-o"
             }
             onClick={() =>
-              this.props.setVisible(this.props.num, !this.props.visible)}
+              this.props.setVisible(this.props.num, !this.props.visible)
+            }
             aria-hidden="true"
           />
           &nbsp;<input
@@ -114,16 +118,19 @@ class PointObject extends Component {
         <InputNumber
           value={this.props.xText}
           onChange={value =>
-            this.props.setTextLocation(this.props.num, 10, value)}
+            this.props.setTextLocation(this.props.num, 10, value)
+          }
           style={{ width: "30%" }}
         />
         &nbsp;&nbsp;Y:{" "}
         <InputNumber
           value={this.props.yText}
           onChange={value =>
-            this.props.setTextLocation(this.props.num, 11, value)}
+            this.props.setTextLocation(this.props.num, 11, value)
+          }
           style={{ width: "30%" }}
-        /><br/>
+        />
+        <br />
         Construction dotted:{" "}
         <Switch
           checkedChildren=""

@@ -123,6 +123,7 @@ class App extends Component {
 
   objPointOnClick(num, e) {
     e.stopPropagation();
+    let bool = true;
     if (
       e.shiftKey === true &&
       this.state.selectedPoint < this.state.objects.length &&
@@ -135,15 +136,20 @@ class App extends Component {
           [[p1[1], p1[2], p1[3]], [p2[1], p2[2], p2[3]]],
           p1[9] + " - " + p2[9]
         );
+        this.setState({ selectedPoint: this.state.objects.length });
+        bool = false;
       } else if (this.state.objects[this.state.selectedPoint][0] === "line") {
         let p2 = this.state.objects[num];
         this.poligonAddPoint(this.state.selectedPoint, p2[1], p2[2], p2[3]);
+        bool = false;
       }
     }
-    if (this.state.selectedPoint !== num) {
-      this.setState({ selectedPoint: num });
-    } else {
-      this.setState({ selectedPoint: -1 });
+    if (bool) {
+      if (this.state.selectedPoint !== num) {
+        this.setState({ selectedPoint: num });
+      } else {
+        this.setState({ selectedPoint: -1 });
+      }
     }
   }
 
@@ -332,7 +338,6 @@ class App extends Component {
     return (
       <div>
         <div className="settings row">
-          <i className="fa fa-diamond fa-4x" aria-hidden="true" />
           <span style={{ marginRight: "3px" }}>
             <i className="fa fa-repeat" aria-hidden="true" /> X:
           </span>
