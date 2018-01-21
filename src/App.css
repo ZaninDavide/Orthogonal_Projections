@@ -61,7 +61,21 @@ span {
   color: rgb(89, 89, 89);
 }
 
+.parallelepipedObject {
+  height: 140px;
+  color: rgb(89, 89, 89);
+}
+
 .pointObject:hover {
+  color: rgb(16, 142, 233);
+}
+
+.parallelepiped:hover {
+  stroke-width: 3px;
+  stroke-opacity: 0.5;
+}
+
+.parallelepipedObject:hover {
   color: rgb(16, 142, 233);
 }
 
@@ -83,6 +97,12 @@ span {
 .selectedPointObj {
   transition: height 0.2s linear;
   height: 70px;
+  color: rgb(16, 142, 233);
+  background-color: rgb(236, 246, 253);
+}
+
+.parallelepipedObjectSelected {
+  height: 140px;
   color: rgb(16, 142, 233);
   background-color: rgb(236, 246, 253);
 }

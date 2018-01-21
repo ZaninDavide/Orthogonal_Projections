@@ -88,21 +88,21 @@ class LineObject extends Component {
             <p style={{ marginBottom: "2px" }}>
               X:{" "}
               <InputNumber
-                style={{ width: "15%" }}
+                style={{ width: "calc((100% - 110px) / 3)" }}
                 value={n[0]}
                 onChange={value =>
                   this.props.setXYZpoligons(this.props.num, id, 0, value)
                 }
               />&nbsp; Y:{" "}
               <InputNumber
-                style={{ width: "15%" }}
+                style={{ width: "calc((100% - 110px) / 3)" }}
                 value={n[1]}
                 onChange={value =>
                   this.props.setXYZpoligons(this.props.num, id, 1, value)
                 }
               />&nbsp; Z:{" "}
               <InputNumber
-                style={{ width: "15%" }}
+                style={{ width: "calc((100% - 110px) / 3)" }}
                 value={n[2]}
                 onChange={value =>
                   this.props.setXYZpoligons(this.props.num, id, 2, value)
@@ -124,6 +124,12 @@ class LineObject extends Component {
             </p>
           );
         })}
+        <i
+          className="fa fa-plus-circle"
+          aria-hidden="true"
+          onClick={() => this.props.poligonAddPoint(this.props.num, 0, 0, 0)}
+          style={{ position: "relative", left: "calc(50% - 6px - 5px)" }}
+        />
       </div>
     );
   }

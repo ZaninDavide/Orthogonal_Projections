@@ -3,14 +3,17 @@ import Point from "./Point";
 import Line from "./Line";
 import LineObject from "./LineObject";
 import PointObject from "./PointObject";
+import Parallelepiped from "./Parallelepiped";
 import Costruzione from "./Costruzione";
 import NewPointButton from "./NewPointButton";
+import Cerchio from "./Cerchio";
 import logo from "./logo.svg";
 import "bootstrap/dist/css/bootstrap.css";
 import "./App.css";
 import { InputNumber, Button, Input, Switch } from "antd";
 import "antd/dist/antd.css";
 import panzoom from "svg-pan-zoom";
+import ParallelepipedObject from "./ParallelepipedObject";
 
 let keynum = 0;
 let first = true;
@@ -73,8 +76,19 @@ class App extends Component {
           [[10, 20, 30], [50, 200, 60], [10, 100, 175]],
           false,
           "keyd",
-          "Line 1"
-        ] //-5 posizioni
+          "Poligon 1"
+        ],
+        [
+          "parallelepiped",
+          10, //posizione x
+          10, //posizione y
+          10, //posizione z
+          20, //larghezza x
+          20, //larghezza y
+          20, //larghezza z
+          "keyp",
+          "Parallelepiped"
+        ]
       ],
       //lines: [[10, 20, 30, 50, 200, 60, false, "keyd"]],
       selectedPoint: 0,
@@ -106,6 +120,10 @@ class App extends Component {
     this.setTextpoligons = this.setTextpoligons.bind(this);
     this.poligonAddPoint = this.poligonAddPoint.bind(this);
     this.poligonRemovePoint = this.poligonRemovePoint.bind(this);
+    this.objParallelepipedOnClick = this.objParallelepipedOnClick.bind(this);
+    this.objParallelepipedSetText = this.objParallelepipedSetText.bind(this);
+    this.objParallelepipedSetProp = this.objParallelepipedSetProp.bind(this);
+    this.addParallelepiped = this.addParallelepiped.bind(this);
     window.addEventListener("resize", this.eventresize);
   }
 
@@ -185,9 +203,28 @@ class App extends Component {
     });
   }
 
-  addLine(points, name = "New Line") {
+  addLine(points, name = "New Poligon") {
     this.setState({
       objects: [...this.state.objects, ["line", points, false, ++keynum, name]]
+    });
+  }
+
+  addParallelepiped(x, y, z, mx, my, mz, name = "New Parallelepiped") {
+    this.setState({
+      objects: [
+        ...this.state.objects,
+        [
+          "parallelepiped",
+          x, //posizione x
+          y, //posizione y
+          z, //posizione z
+          mx, //larghezza x
+          my, //larghezza y
+          mz, //larghezza z
+          keynum++,
+          name
+        ]
+      ]
     });
   }
 
@@ -308,6 +345,26 @@ class App extends Component {
     img.src = url;
   }
 
+  objParallelepipedOnClick(num) {
+    if (this.state.selectedPoint !== num) {
+      this.setState({ selectedPoint: num });
+    } else {
+      this.setState({ selectedPoint: -1 });
+    }
+  }
+
+  objParallelepipedSetText(num, val) {
+    let p = [...this.state.objects];
+    p[num][8] = val;
+    this.setState({ objects: p });
+  }
+
+  objParallelepipedSetProp(num, n, val) {
+    let p = [...this.state.objects];
+    p[num][n] = val;
+    this.setState({ objects: p });
+  }
+
   getSVG() {
     var svgData = document.getElementById("svgContainer").innerHTML;
     var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
@@ -370,6 +427,20 @@ class App extends Component {
             addPoint={this.addPoint}
             style={{ display: "inline-block" }}
           />
+          <Button
+            type="primary"
+            style={{ marginLeft: "4px" }}
+            onClick={() => this.addLine([[0, 0, 0]])}
+          >
+            New poligon
+          </Button>
+          <Button
+            type="primary"
+            style={{ marginLeft: "4px" }}
+            onClick={() => this.addParallelepiped(0, 0, 0, 50, 50, 50)}
+          >
+            New parallelepiped
+          </Button>
           &nbsp;Axes:&nbsp;
           <Switch
             style={{}}
@@ -420,7 +491,7 @@ class App extends Component {
                     setTextLocation={this.setTextLocation}
                     setcDotted={this.setcDotted}
                   />
-                ) : (
+                ) : n[0] === "line" ? (
                   <LineObject
                     num={this.state.objects.length - 1 - id}
                     /*p1x={n[1]}
@@ -447,6 +518,30 @@ class App extends Component {
                     setDotted={this.setDotted}
                     key={"lo" + n[3]}
                   />
+                ) : n[0] === "parallelepiped" ? (
+                  <ParallelepipedObject
+                    num={this.state.objects.length - 1 - id}
+                    x={n[1]}
+                    y={n[2]}
+                    z={n[3]}
+                    mx={n[4]}
+                    my={n[5]}
+                    mz={n[6]}
+                    key={"pao" + n[7]}
+                    text={n[8]}
+                    setText={this.objParallelepipedSetText}
+                    onClick={this.objParallelepipedOnClick}
+                    setProp={this.objParallelepipedSetProp}
+                    delete={this.deleteobj}
+                    selected={
+                      this.state.selectedPoint ===
+                      this.state.objects.length - 1 - id
+                        ? true
+                        : false
+                    }
+                  />
+                ) : (
+                  ""
                 )
             )}
           </div>
@@ -496,6 +591,17 @@ class App extends Component {
                     ydeg={this.state.ydeg}
                     points={[[0, 0, 0], [0, 0, 700]]}
                   />
+                  <Cerchio
+                    ox={100}
+                    oy={0}
+                    oz={10}
+                    xdeg={this.state.xdeg}
+                    ydeg={this.state.ydeg}
+                    rx={50}
+                    ry={50}
+                    axesx={this.state.ox}
+                    axesy={this.state.oy}
+                  />
                 </g>
               ) : (
                 ""
@@ -515,7 +621,7 @@ class App extends Component {
                       selected={this.state.selectedPoint === id ? true : false}
                       onClick={this.objLineOnClick}
                     />
-                  ) : (
+                  ) : n[0] === "point" ? (
                     <Point
                       key={"p" + n[5]}
                       num={id}
@@ -536,6 +642,24 @@ class App extends Component {
                       xText={n[10]}
                       yText={n[11]}
                     />
+                  ) : n[0] === "parallelepiped" ? (
+                    <Parallelepiped
+                      x={n[1]}
+                      y={n[2]}
+                      z={n[3]}
+                      mx={n[4]}
+                      my={n[5]}
+                      mz={n[6]}
+                      key={"pa" + n[7]}
+                      xdeg={this.state.xdeg}
+                      ydeg={this.state.ydeg}
+                      ox={this.state.ox}
+                      oy={this.state.oy}
+                      onClick={this.objParallelepipedOnClick}
+                      num={id}
+                    />
+                  ) : (
+                    ""
                   )
               )}
             </svg>

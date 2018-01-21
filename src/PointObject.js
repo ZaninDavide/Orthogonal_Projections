@@ -66,17 +66,17 @@ class PointObject extends Component {
         <p style={{}}>
           X:{" "}
           <InputNumber
-            style={{ width: "15%" }}
+            style={{ width: "calc((100% - 90px) / 3)" }}
             value={this.props.x}
             onChange={value => this.props.setXYZ(this.props.num, 1, value)}
           />&nbsp; Y:{" "}
           <InputNumber
-            style={{ width: "15%" }}
+            style={{ width: "calc((100% - 90px) / 3)" }}
             value={this.props.y}
             onChange={value => this.props.setXYZ(this.props.num, 2, value)}
           />&nbsp; Z:{" "}
           <InputNumber
-            style={{ width: "15%" }}
+            style={{ width: "calc((100% - 90px) / 3)" }}
             value={this.props.z}
             onChange={value => this.props.setXYZ(this.props.num, 3, value)}
           />
@@ -86,7 +86,7 @@ class PointObject extends Component {
             style={{
               position: "relative",
               top: "130px",
-              left: "calc(50% - 4.5px)"
+              left: "calc(50% - 4.5px - 2.5px)"
             }}
             className="fa fa-angle-up"
             aria-hidden="true"
@@ -99,7 +99,7 @@ class PointObject extends Component {
             style={{
               position: "relative",
               top: "0px",
-              left: "calc(50% - 4.5px)"
+              left: "calc(50% - 4.5px - 5px)"
             }}
             onClick={() => this.props.setExtended(this.props.num, true)}
           />
