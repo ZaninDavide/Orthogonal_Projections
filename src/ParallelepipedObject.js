@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { InputNumber, Button, Input, Switch } from "antd";
+import ParallelepipedButton from "./ParallelepipedButton";
 class PointObject extends Component {
   constructor(props) {
     super(props);
@@ -20,10 +21,23 @@ class PointObject extends Component {
         }}
       >
         <div style={{ float: "right" }}>
+          <ParallelepipedButton
+            settingsShowed={this.props.settingsShowed}
+            onClickButton={() => this.props.setProp(this.props.num, 9, true)}
+            close={() => this.props.setProp(this.props.num, 9, false)}
+            addPoint={this.addPoint}
+            style={{ display: "inline-block" }}
+            setProp={this.props.setProp}
+            linescolors={this.props.linecolors}
+            lineswidth={this.props.lineswidth}
+            linesdotted={this.props.linesdotted}
+            num={this.props.num}
+          />
           <button
             style={{
               height: "20px",
               marginRight: "2px",
+              marginLeft: "5px",
               backgroundColor: "transparent",
               border: "0px"
             }}

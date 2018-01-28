@@ -87,7 +87,37 @@ class App extends Component {
           20, //larghezza y
           20, //larghezza z
           "keyp",
-          "Parallelepiped"
+          "Parallelepiped",
+          false, // settings
+          [
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+          ],
+          ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+          [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
         ]
       ],
       //lines: [[10, 20, 30, 50, 200, 60, false, "keyd"]],
@@ -533,6 +563,10 @@ class App extends Component {
                     onClick={this.objParallelepipedOnClick}
                     setProp={this.objParallelepipedSetProp}
                     delete={this.deleteobj}
+                    settingsShowed={n[9]}
+                    linecolors={n[10]}
+                    lineswidth={n[11]}
+                    linesdotted={n[12]}
                     selected={
                       this.state.selectedPoint ===
                       this.state.objects.length - 1 - id
